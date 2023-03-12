@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import dateutil.parser
 
 def data_cleaning_and_validation(df,success_path,failed_path):
 
