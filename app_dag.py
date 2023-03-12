@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import pandas as pd
 import os
+import hashlib
 
 # define default arguments
 default_args = {
@@ -62,6 +63,9 @@ def process_membership_applications(**context):
             email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
             failed_df=pd.concat([failed_df,df[~df['email'].str.contains(email_pattern)]])
             df = df[df['email'].str.contains(email_pattern)]
+
+            #Create membership id for successfull candidates
+            df['membership_id'] = df.apply(lambda row: f"{row['last_name']}_{hashlib.sha256(row['date_of_birth'].encode('utf-8')).hexdigest()[:5]}", axis=1)
             failed_df.to_csv(failed_path, index=False)
             df.to_csv(success_path, index=False)
 

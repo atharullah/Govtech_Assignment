@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import hashlib
 
 def data_cleaning_and_validation(df,success_path,failed_path):
 
@@ -30,8 +31,11 @@ def data_cleaning_and_validation(df,success_path,failed_path):
     email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     failed_df=pd.concat([failed_df,df[~df['email'].str.contains(email_pattern)]])
     df = df[df['email'].str.contains(email_pattern)]
-    failed_df.to_csv(failed_path, index=False)
 
+    df['membership_id'] = df.apply(lambda row: f"{row['last_name']}_{hashlib.sha256(row['date_of_birth'].encode('utf-8')).hexdigest()[:5]}", axis=1)
+    df.to_csv(success_path, index=False)
+
+    failed_df.to_csv(failed_path, index=False)
     df.to_csv(success_path, index=False)
 
 if __name__ == "__main__":
