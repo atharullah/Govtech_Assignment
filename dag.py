@@ -47,19 +47,5 @@ create_database_container = DockerOperator(
     dag=dag,
 )
 
-initialize_database = PostgresOperator(
-    task_id='initialize_database',
-    postgres_conn_id='postgres_default',
-    sql='govtech/database/init.sql',
-    dag=dag,
-)
-
-wait_for_database = SqlSensor(
-    task_id='wait_for_database',
-    conn_id='postgres_default',
-    sql='SELECT 1',
-    dag=dag,
-)
-
 # set task dependencies
 process_applications_task >> create_database_container
