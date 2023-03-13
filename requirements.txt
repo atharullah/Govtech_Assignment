@@ -1,0 +1,4 @@
+pandas==1.4.0
+hashlib==20081119
+apache-airflow==2.2.3
+scikit-learn==1.0.2

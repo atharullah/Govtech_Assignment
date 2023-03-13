@@ -4,9 +4,9 @@ import hashlib
 
 def data_cleaning_and_validation():
     # Data Ingestion
-    input_folder = '../data/input/'
-    success_folder = '../data/success/'
-    failed_folder = '../data/failed/'
+    input_folder = 'data/input/'
+    success_folder = 'data/success/'
+    failed_folder = 'data/failed/'
     for filename in os.listdir(input_folder):
         if filename.startswith('applications_') and filename.endswith('.csv'):
             input_path = os.path.join(input_folder, filename)

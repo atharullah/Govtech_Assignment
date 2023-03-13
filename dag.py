@@ -1,9 +1,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-import pandas as pd
-import os
-import hashlib
 from scripts.data_cleaning_and_validation import data_cleaning_and_validation
 
 from airflow.providers.docker.operators.docker import DockerOperator
